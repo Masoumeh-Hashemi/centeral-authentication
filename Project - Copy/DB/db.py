@@ -98,6 +98,3 @@ c.execute("""CREATE TABLE esb_assosiation_table(
 conn.close()
 
 
-    
-
-conn.close()
