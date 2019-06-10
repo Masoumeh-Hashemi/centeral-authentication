@@ -1,7 +1,10 @@
 class db:
+
+    DBNAME = ''
+
     def __init__(self, name):
         # TODO: init database connection with name passed
-        a = 1
+        self.DBNAME = name
 
     def rert(self, query):
         # TODO: 
