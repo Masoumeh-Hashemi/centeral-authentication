@@ -52,6 +52,7 @@ def main():
             data_ready += str(data, encoding = "UTF-8")
         # Call operator
         input_array = data_ready.split(' ')
+        # Callback trigger
         result = main_operator(input_array)
         print (result)
         # Return result to clientc
