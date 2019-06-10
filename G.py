@@ -8,11 +8,12 @@ import DB
 import LAYER7
 
 # Define constrains
+dbname = 'G.db'
 host = "127.0.0.1"
 port = 8080
 
 # Initialize classes
-db = DB.db("G.db")
+db = DB.db(dbname)
 sockett = LAYER7.layer7(host, port)
 
 # Application functionality
