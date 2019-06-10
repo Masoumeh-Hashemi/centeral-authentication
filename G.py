@@ -5,6 +5,7 @@
 # Importing dependecies
 import socket
 import DB
+import LAYER7
 
 # Define constrains
 host = "127.0.0.1"
@@ -12,6 +13,7 @@ port = 8080
 
 # Initialize classes
 db = DB.db("G.db")
+sockett = LAYER7.layer7(host, port)
 
 # Application functionality
 def main_operator(input):
@@ -32,34 +34,5 @@ def login(username, password):
     result = db.rert("SELECT 'A'")
     return "You are going to login with " + username + " and pass: " + password
 
-
-# Application main thread
-def main():
-
-    # Listen network
-    serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serv.bind((host, port))
-    serv.listen(5)
-
-    # Network stuff
-    while True:
-        # Accept packets
-        conn, addr = serv.accept()
-        # Recieve data
-        data_ready = ''
-        while True:
-            data = conn.recv(4096)
-            if not data: break
-            data_ready += str(data, encoding = "UTF-8")
-        # Call operator
-        input_array = data_ready.split(' ')
-        # Callback trigger
-        result = main_operator(input_array)
-        print (result)
-        # Return result to clientc
-        conn.sendall(bytes(result, encoding = "UTF-8"))
-        # Close connection
-        conn.close()
-
 # Run app
-main()
+sockett.start_listening(main_operator)
