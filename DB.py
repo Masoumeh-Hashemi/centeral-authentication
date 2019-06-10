@@ -1,3 +1,7 @@
+# Author: @Masoumeh-Hashemi
+# Date: June 10 2019
+# Description: working with database
+
 class db:
 
     DBNAME = ''
