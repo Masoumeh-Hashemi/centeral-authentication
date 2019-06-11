@@ -29,7 +29,7 @@ def main_operator(input):
 def register(username, password):
     a=username
     b=password
-    my_query = "INSERT INTO user_table(user_username, user_password) values ("+a+ "," +b+")"
+    my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+a+"','"+b+"')"
     db.execute(my_query)
     return print("You are going to register " + username + " with pass: " + password)
 
@@ -37,18 +37,20 @@ def register(username, password):
 def login(username, password):
     a=username
     b=password
-    my_query="SELECT * FROM user_table WHERE user_username==" +a+ "& user_password==" +b
+    my_query="SELECT * FROM user_table WHERE (user_username== '"+a+"' & user_password== '"+b+"') "
     result = db.rert(my_query)
-    return result
-    # return "You are going to login with " + a + " and pass: " + b
-    if not result:
-        print("wrong username or password")
+    # if not result:
+    #     print("wrong username or password")
+    # return "You are going to login with  '"+ a +"'  and pass:  '"+ b +"' "
+    print(result)
+    # return result
+    
     
         
 
 
-# register('1','2')   
-login('1','2')        
+register('user1','password1')   
+login('user1','password1')        
 
 # Run app
 sockett.start_listening(main_operator)
