@@ -12,7 +12,14 @@ class db:
         self.DBNAME = name
 
     def rert(self, query):
-        # TODO: 
+
+        conn=sqlite3.connect('database.db')
+        c=conn.cursor() 
+        query_to_run=query
+        c.execute(query_to_run)
+        conn.commit()
+        result=c.fetchall()
+        print(result)
         return "Result"
 
     def execute(self, query):
@@ -21,6 +28,5 @@ class db:
         c=conn.cursor() 
         query_to_run=query
         c.execute(query_to_run)
-        result=c.fetchall()
-        print(result)
-        return result
+        conn.commit()
+       
