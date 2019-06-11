@@ -29,4 +29,5 @@ class db:
         query_to_run=query
         c.execute(query_to_run)
         conn.commit()
+        conn.close()
        

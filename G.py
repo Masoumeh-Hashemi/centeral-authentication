@@ -27,13 +27,11 @@ def main_operator(input):
 
 # regsiter function
 def register(username, password):
-    #TODO:pass username,password to qury
     a=username
     b=password
-    my_query = "INSERT INTO user_table (user_username, user_password) values(?,?),("+username+ "," +password+")"
-    # tuple="INSERT INTO user_table (user_username, user_password) VALUES (?,?)",(a,b)
+    my_query = "INSERT INTO user_table(user_username, user_password) values ("+a+ "," +b+")"
     db.execute(my_query)
-    return "You are going to register " + username + " with pass: " + password
+    return print("You are going to register " + username + " with pass: " + password)
 
 # login function
 def login(username, password):
@@ -49,7 +47,7 @@ def login(username, password):
         return "You are going to login with " + username + " and pass: " + password
 
 
-register("massi","massipassword")   
+register('1','2')   
 # login('masoumeh','123456')        
 
 # Run app
