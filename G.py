@@ -50,8 +50,8 @@ def login(username, password):
         
 
 
-register('user1','password1')   
-login('تست','password1')        
+register('معصومه','password1')   
+login('معصومه','password1')        
 
 # Run app
 sockett.start_listening(main_operator)
