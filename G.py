@@ -37,12 +37,13 @@ def register(username, password):
 def login(username, password):
     a=username
     b=password
-    my_query="SELECT * FROM user_table WHERE (user_username== '"+a+"' & user_password== '"+b+"') "
+    my_query="SELECT * FROM user_table WHERE user_username= '"+a+"' AND user_password= '"+b+"'"
     result = db.rert(my_query)
+    print(result)
     # if not result:
     #     print("wrong username or password")
     # return "You are going to login with  '"+ a +"'  and pass:  '"+ b +"' "
-    print(result)
+    # print(result)
     # return result
     
     
@@ -50,7 +51,7 @@ def login(username, password):
 
 
 register('user1','password1')   
-login('user1','password1')        
+login('تست','password1')        
 
 # Run app
 sockett.start_listening(main_operator)
