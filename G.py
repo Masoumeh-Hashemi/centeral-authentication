@@ -27,13 +27,31 @@ def main_operator(input):
 
 # regsiter function
 def register(username, password):
-    db.execute("INSERT INTO USERS (USERNAME, PASSWORD) VALUES ('A','B')")
+    #TODO:pass username,password to qury
+    a=username
+    b=password
+    my_query = "INSERT INTO user_table (user_username, user_password) values(?,?),("+username+ "," +password+")"
+    # tuple="INSERT INTO user_table (user_username, user_password) VALUES (?,?)",(a,b)
+    db.execute(my_query)
     return "You are going to register " + username + " with pass: " + password
 
 # login function
 def login(username, password):
-    result = db.rert("SELECT 'A'")
-    return "You are going to login with " + username + " and pass: " + password
+    #my_query = 'insert into user_table (param1, par2) values (' + variable1 + ',' + variable2 + ');'#
+    a=username
+    b=password
+    #TODO:pass a and b to query
+   
+    result = db.rert("SELECT * FROM user_table WHERE user_username== & user_password==")
+    if not result:
+        print("wrong username or password")
+    else:
+        return "You are going to login with " + username + " and pass: " + password
+
+
+register("massi","massipassword")   
+# login('masoumeh','123456')        
 
 # Run app
 sockett.start_listening(main_operator)
+# login('masoumeh','123456')  
