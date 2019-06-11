@@ -8,7 +8,7 @@ import DB
 import LAYER7
 
 # Define constrains
-dbname = 'G.db'
+dbname = 'database.db'
 host = "127.0.0.1"
 port = 8080
 
@@ -35,20 +35,20 @@ def register(username, password):
 
 # login function
 def login(username, password):
-    #my_query = 'insert into user_table (param1, par2) values (' + variable1 + ',' + variable2 + ');'#
     a=username
     b=password
-    #TODO:pass a and b to query
-   
-    result = db.rert("SELECT * FROM user_table WHERE user_username== & user_password==")
+    my_query="SELECT * FROM user_table WHERE user_username==" +a+ "& user_password==" +b
+    result = db.rert(my_query)
+    return result
+    # return "You are going to login with " + a + " and pass: " + b
     if not result:
         print("wrong username or password")
-    else:
-        return "You are going to login with " + username + " and pass: " + password
+    
+        
 
 
-register('1','2')   
-# login('masoumeh','123456')        
+# register('1','2')   
+login('1','2')        
 
 # Run app
 sockett.start_listening(main_operator)

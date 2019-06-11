@@ -19,8 +19,8 @@ class db:
         c.execute(query_to_run)
         conn.commit()
         result=c.fetchall()
-        print(result)
-        return "Result"
+        # print(result)
+        return result
 
     def execute(self, query):
         
