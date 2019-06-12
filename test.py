@@ -20,5 +20,5 @@ db_instance = DB.db('database')
 
 # result = db_instance.rert("SELECT * FROM user_table WHERE user_username=='1'")
 
-
-# print(result)
+result=db_instance.rert("SELECT * FROM app_table")
+print(result)
