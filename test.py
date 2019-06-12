@@ -14,11 +14,11 @@ db_instance = DB.db('database')
 
 # result=db_instance.rert("SELECT * FROM user_table")
 
-my_query="SELECT * FROM user_table WHERE user_username= '"+a+"' AND user_password= '"+b+"'"
+# my_query="SELECT * FROM user_table WHERE user_username= '"+a+"' AND user_password= '"+b+"'"
 # my_query="SELECT * FROM user_table WHERE (user_username= '"+a+"' & user_password= '"+b+"')"
-result = db_instance.rert(my_query)
+# result = db_instance.rert(my_query)
 
 # result = db_instance.rert("SELECT * FROM user_table WHERE user_username=='1'")
 
 
-print(result)
+# print(result)
