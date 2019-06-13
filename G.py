@@ -24,6 +24,10 @@ def main_operator(input):
         
     elif input[0] == "login_user":
         return login_user(input[1], input[2])
+        
+    elif input[0] == "register_app":
+        return register_app(input[1], input[2])
+
     #TODO:باید if تو در تو بنویسم برای حالت user
     else:
         return "Command not found"
@@ -64,12 +68,12 @@ def register_app(appname, url):
     a=appname
     b=url
     c=generate_random_string()
-    my_query = "INSERT INTO app_table( app_secret_code,app_name,app_url) VALUES ('"+c+"','"+a+"','"+b+"')"
+    my_query = "INSERT INTO app_table(app_secret_code,app_name,app_url) VALUES ('"+c+"','"+a+"','"+b+"')"
     db.execute(my_query)
     print("App " + a + " registered with URL: " + b)   
     #TODO:i want send this result to app
     # sockett.send_request(c,8081)
-    return c
+    return ""
 
 
 

@@ -47,4 +47,6 @@ class app:
 def just_print(input):
     if input[0]=="app1":
      return "Im working"
-app_socket.start_listening(just_print)
+# app_socket.start_listening(just_print)
+app_socket.send_request("register_app golestanapp www...com",8080)
+print('send!')

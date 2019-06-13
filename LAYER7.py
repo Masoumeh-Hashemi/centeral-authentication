@@ -21,11 +21,12 @@ class layer7:
     def send_request(self, input,port):
         # TODO: test the following code
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.connect((self.HOST, self.PORT))
-        client.send(input)
-        from_server = client.recv(4096)
+        client.connect((self.HOST, port))
+        # bytes(result, encoding = "UTF-8")
+        client.send(bytes(input,encoding = "UTF-8"))
+        # from_server = client.recv(4096)
         client.close()
-        return from_server
+        return "from_server"
 
     # This will listen network
     def start_listening(self, function_to_callback):
