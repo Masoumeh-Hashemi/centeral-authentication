@@ -24,7 +24,7 @@ def main_operator(input):
         
     elif input[0] == "login_user":
         return login_user(input[1], input[2])
-        
+
     elif input[0] == "register_app":
         return register_app(input[1], input[2])
 
@@ -60,7 +60,7 @@ def generate_random_string():
     stringLength = 8
     randomString = uuid.uuid4().hex # get a random string in a UUID fromat
     randomString  = randomString.upper()[0:stringLength] # convert it in a uppercase letter and trim to your size.
-    return randomString
+    return str(randomString)
 
     
 #register App function and return secret_app_code to the app who called it   
@@ -73,7 +73,7 @@ def register_app(appname, url):
     print("App " + a + " registered with URL: " + b)   
     #TODO:i want send this result to app
     # sockett.send_request(c,8081)
-    return ""
+    return c
 
 
 

@@ -22,10 +22,10 @@ class layer7:
         # TODO: test the following code
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect((self.HOST, port))
-        # bytes(result, encoding = "UTF-8")
         client.send(bytes(input,encoding = "UTF-8"))
-        # from_server = client.recv(4096)
+        from_server = client.recv(1024)
         client.close()
+        # print(from_server)
         return "from_server"
 
     # This will listen network
@@ -51,6 +51,6 @@ class layer7:
             result = function_to_callback(input_array)
             print (result)
             # Return result to client
-            conn.sendall(bytes(result, encoding = "UTF-8"))
+            conn.send(bytes(result, encoding = "UTF-8"))
             # Close connection
             conn.close()
