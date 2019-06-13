@@ -21,6 +21,7 @@ sockett = LAYER7.layer7(host, port)
 def main_operator(input):
     if input[0] == "register_user":
         return register_user(input[1], input[2])
+        
     elif input[0] == "login_user":
         return login_user(input[1], input[2])
     #TODO:باید if تو در تو بنویسم برای حالت user
@@ -33,7 +34,8 @@ def register_user(username, password):
     b=password
     my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+a+"','"+b+"')"
     db.execute(my_query)
-    return print("You are going to register " + username + " with pass: " + password)
+    print( "You are going to register " + a + " with pass: " + b )
+    return ""
 
 # login function
 def login_user(username, password):

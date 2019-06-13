@@ -49,7 +49,7 @@ class layer7:
             # Callback trigger
             result = function_to_callback(input_array)
             print (result)
-            # Return result to clientc
+            # Return result to client
             conn.sendall(bytes(result, encoding = "UTF-8"))
             # Close connection
             conn.close()

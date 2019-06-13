@@ -46,5 +46,5 @@ class app:
 # app_socket.send_request("TODO:sending what we want to server",8080)
 def just_print(input):
     if input[0]=="app1":
-     return print("Im working")
+     return "Im working"
 app_socket.start_listening(just_print)
