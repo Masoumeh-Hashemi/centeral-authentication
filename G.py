@@ -48,6 +48,7 @@ def login_user(username, password):
         print("wrong username or password")
     if result:    
        print("You are going to login with  '"+ a +"'  and pass:  '"+ b +"' ") 
+    return ""
 
 ################################################App##################################################
 #create random string for app_secret_code
