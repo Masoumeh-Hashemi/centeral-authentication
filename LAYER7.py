@@ -18,7 +18,7 @@ class layer7:
         self.PORT = port
 
     # This will send requests to other servers
-    def send_request(self, input):
+    def send_request(self, input,port):
         # TODO: test the following code
         client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client.connect((self.HOST, self.PORT))

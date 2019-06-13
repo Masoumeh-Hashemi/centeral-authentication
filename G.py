@@ -19,9 +19,9 @@ sockett = LAYER7.layer7(host, port)
 
 # Application functionality
 def main_operator(input):
-    if input[0] == "register_app":
+    if input[0] == "register_user":
         return register_user(input[1], input[2])
-    elif input[0] == "login_app":
+    elif input[0] == "login_user":
         return login_user(input[1], input[2])
     #TODO:باید if تو در تو بنویسم برای حالت user
     else:
@@ -64,9 +64,14 @@ def register_app(appname, url):
     my_query = "INSERT INTO app_table( app_secret_code,app_name,app_url) VALUES ('"+c+"','"+a+"','"+b+"')"
     db.execute(my_query)
     print("App " + a + " registered with URL: " + b)   
+    #TODO:i want send this result to app
+    # sockett.send_request(c,8081)
     return c
 
+
+
+
      
-register_app('app1','me.com')
+# register_app('app1','me.com')
 # Run app
 sockett.start_listening(main_operator)
