@@ -26,7 +26,8 @@ def main_operator(input):
         return login_user(input[1], input[2])
 
     elif input[0] == "register_app":
-        return register_app(input[1], input[2])
+        c= register_app(input[1], input[2])
+        return c
 
     #TODO:باید if تو در تو بنویسم برای حالت user
     else:
@@ -73,12 +74,11 @@ def register_app(appname, url):
     print("App " + a + " registered with URL: " + b)   
     #TODO:i want send this result to app
     # sockett.send_request(c,8081)
+    # print(c)
     return c
 
 
 
-
-     
-# register_app('app1','me.com')
 # Run app
+
 sockett.start_listening(main_operator)

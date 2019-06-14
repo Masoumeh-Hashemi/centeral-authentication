@@ -25,8 +25,11 @@ class layer7:
         client.send(bytes(input,encoding = "UTF-8"))
         from_server = client.recv(1024)
         client.close()
-        # print(from_server)
-        return "from_server"
+        print(from_server)
+        # client.shutdown(socket.SHUT_WR)
+        return from_server
+        
+
 
     # This will listen network
     def start_listening(self, function_to_callback):
@@ -34,23 +37,24 @@ class layer7:
         serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         serv.bind((self.HOST, self.PORT))
         serv.listen(5)
-
-        # Network stuff
+        # Accept packets
         while True:
-            # Accept packets
-            conn, addr = serv.accept()
-            # Recieve data
-            data_ready = ''
-            while True:
-                data = conn.recv(4096)
-                if not data: break
-                data_ready += str(data, encoding = "UTF-8")
-            # Call operator
-            input_array = data_ready.split(' ')
-            # Callback trigger
-            result = function_to_callback(input_array)
-            print (result)
-            # Return result to client
-            conn.send(bytes(result, encoding = "UTF-8"))
-            # Close connection
-            conn.close()
+            conn, addr = serv.accept()      
+            # Network stuff
+            with conn:
+                # Recieve data
+                data_ready = ''
+                while True:
+                    data = conn.recv(4096)
+                    if not data: 
+                        break
+                    data_ready += str(data, encoding = "UTF-8")
+                    # Call operator
+                    input_array = data_ready.split(' ')
+                    # Callback trigger
+                    result = function_to_callback(input_array)
+                    # Return result to client
+                    conn.send(bytes(result, encoding = "UTF-8"))
+                    # Close connection
+            conn.close()   
+        serv.close() 
