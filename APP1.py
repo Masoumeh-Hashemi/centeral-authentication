@@ -53,11 +53,14 @@ def main_operator(input):
         result.append(create_session_id())
         my_query="SELECT app_code FROM app_table WHERE app_name= '"+input[1]+"'"
         app_code=db.rert(my_query)
-        print(app_code)
-        c=""
-        c=app_code[0].__str__()
-        result.append(c)
-        app_socket.send_request(result,8082)
+        app_code=app_code[0]
+        app_code=(''.join(map(str, app_code)))
+        result.append(" ")
+        result.append(app_code)
+        result1 = ''.join(result)
+        return str(result1)
+        # print(result1)
+        # app_socket.send_request(result1,8082)
 
     elif input[0] == "register":
         # TODO:do what is needed for register
@@ -68,5 +71,5 @@ def main_operator(input):
 
 # app1.handshake("app1","TODO:wait to function register_app")
 # app_socket.start_listening(just_print)
-# app_socket.send_request(app1.create_session_id(),8080)
+# app_socket.send_request("register_app golestsn @.com",8080)
 app_socket.start_listening(main_operator)

@@ -34,9 +34,9 @@ class user:
         list.append(action)
         list.append(" ")
         list.append(requested_app)
-        c=""
-        c=str(list)
-        app_socket.send_request(c,8081)
+        str1 = ''.join(list)
+        app_socket.send_request(str1,8081)
+
 
         # username=input("Please enter username: ")
         # password=input("Please enter password: ")
@@ -48,11 +48,12 @@ class user:
 
 
 usertest=user()
+usertest.send_login_request_to_app()
 # c=usertest.send_login_request_to_app()
 
 # print(c)
         
-app_socket.send_request(usertest.send_login_request_to_app(),8081)
+# app_socket.send_request(usertest.send_login_request_to_app(),8081)
 # app_socket.start_listening("just_print")   
         
 
