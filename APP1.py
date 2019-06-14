@@ -18,6 +18,7 @@ host = "127.0.0.1"
 port = 8081
 
 # Initialize classes
+db = DB.db('database.db')
 app_socket = LAYER7.layer7(host, port)
 
 
@@ -39,34 +40,33 @@ class app:
         #should return bool ,appcode
         return app.app_code
 
-    def create_session_id(self):
-        #TODO:make sessionId more complicated
-        now = datetime.datetime.now()
-        sentence=now.__str__()
-        sentence = ''.join(sentence.split())
-        return sentence
+def create_session_id():
+    #TODO:make sessionId more complicated
+    now = datetime.datetime.now()
+    session_id=now.__str__()
+    session_id = ''.join(session_id.split())
+    return session_id
 
-        #TODO:"""Build a new Session ID"""
-        # def getNewSID(self,tag):
-            # t1 = time.time()
-            # time.sleep( whrandom.random() )
-            # t2 = time.time()
-            # base = md5.new( tag + str(t1 +t2) )
-            # sid = tag + '_' + base.hexdigest()
-            # return sid
+def main_operator(input):
+    if input[0] == "login":
+        result=[]
+        result.append(create_session_id())
+        my_query="SELECT app_code FROM app_table WHERE app_name= '"+input[1]+"'"
+        app_code=db.rert(my_query)
+        print(app_code)
+        c=""
+        c=app_code[0].__str__()
+        result.append(c)
+        app_socket.send_request(result,8082)
 
+    elif input[0] == "register":
+        # TODO:do what is needed for register
+        pass
+   
+    else:
+        return "Command not found"
 
-
-	
-
-app1=app("golestan")
-result=app1.create_session_id()
-print (result)
-# app1=app("app1")
 # app1.handshake("app1","TODO:wait to function register_app")
-
-def just_print(input):
-    if input[0]=="app1":
-     return "Im working"
 # app_socket.start_listening(just_print)
-app_socket.send_request(app1.create_session_id(),8080)
+# app_socket.send_request(app1.create_session_id(),8080)
+app_socket.start_listening(main_operator)
