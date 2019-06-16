@@ -25,6 +25,7 @@ class user:
         pass
         # return user.user_id
 
+    #send a login request to app on app socket and app return a session id and app code
     def send_request_to_app(self,url):
         action="login"
         requested_app=url
@@ -34,29 +35,37 @@ class user:
         list.append(requested_app)
         str1 = ''.join(list)
         result = app_socket.send_request(str1,8081)
-        # print(result)
         return result
+
+
     def send_request_to_G(self,input):
         v="register_user "+input
         app_socket.send_request(v,8080)
 
-        # username=input("Please enter username: ")
-        # password=input("Please enter password: ")
-        # list=[]
-        # list.append(username)
-        # list.append(password)
-        # return list
+
+#main operation of app for sending username/password to G 
+def main_operation(input):
+    if input=="credential":
+        username=input("Please enter username: ")
+        password=input("Please enter password: ")
+        list=[]
+        list.append("enter_credential")
+        list.append(" ")
+        list.append(username)
+        list.append(" ")
+        list.append(password)
+        str1 = ''.join(list)
+        app_socket.send_request(str1,8080)
 
 #start user program
 user_test=user()
-a=user_test.send_request_to_app('golestanapp')
-a=str(a)
-# print(a)
-user_test.send_request_to_G(a)
+sesion_app_id=user_test.send_request_to_app('golestanapp')
+sesion_app_id=str(sesion_app_id)
+user_test.send_request_to_G(sesion_app_id)
+# user_test.receive_G_answer()
 
-# print(c)
-# app_socket.send_request(usertest.send_login_request_to_app(),8081)
-# app_socket.start_listening("just_print")   
+
+app_socket.start_listening(main_operation)   
         
 
 

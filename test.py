@@ -44,4 +44,9 @@ db_instance = DB.db('database')
 # str1 = ''.join(list)
 # print(str1)
 
+#show sessio table
+# db_instance.execute("INSERT INTO session_table( session_id,s_app_id,s_user_id) VALUES ('123txt','123txt','123txt')")
+# result=db_instance.rert("SELECT * FROM session_table")
+# print(result)
+
 

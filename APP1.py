@@ -47,6 +47,7 @@ def create_session_id():
     session_id=now.__str__()
     session_id = ''.join(session_id.split())
     return session_id
+
 #main operation of the app:just send user a session id and app code
 def main_operator(input):
     # if input[0] == "login":

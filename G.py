@@ -28,20 +28,24 @@ def main_operator(input):
     elif input[0] == "register_app":
         c= register_app(input[1], input[2])
         return c
-    elif input[0] == ""
-        pass
-
-    #TODO:باید if تو در تو بنویسم برای حالت user
+    elif input[0] == "enter_credential":
+        return credential(input[1], input[2])
+   
     else:
-        return "Command not found"
+        print("command not found")
 ############################################## User##################################################
-# regsiter function
-def register_user(username, password):
-    a=username
-    b=password
-    my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+a+"','"+b+"')"
+# regsiter function,at first it receives an session_id and app_id from requsted user and ask for credentials
+def register_user(session_id,s_app_id):
+    my_query = " INSERT INTO session_table(session_id,s_app_id) VALUES ('"+session_id+"' '"+s_app_id+"') "
     db.execute(my_query)
-    print( "You are going to register " + a + " with pass: " + b )
+    sockett.send_request("credential",8082)
+    # return s_app_id
+
+#user enter credencials (usernmae and password) to be add in users table
+def credential(username,password):
+    my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
+    db.execute(my_query)
+    print( "You are going to register " + username + " with pass: " + password )
     return ""
 
 # login function
@@ -82,5 +86,5 @@ def register_app(appname, url):
 
 
 # Run app
-
-sockett.start_listening(main_operator)
+while True:
+    sockett.start_listening(main_operator)
