@@ -28,6 +28,8 @@ def main_operator(input):
     elif input[0] == "register_app":
         c= register_app(input[1], input[2])
         return c
+    elif input[0] == ""
+        pass
 
     #TODO:باید if تو در تو بنویسم برای حالت user
     else:

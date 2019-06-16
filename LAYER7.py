@@ -56,4 +56,4 @@ class layer7:
                     conn.send(bytes(result, encoding = "UTF-8"))
                     # Close connection
             conn.close()   
-        serv.close() 
+        serv.close()   

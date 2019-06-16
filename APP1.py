@@ -16,6 +16,7 @@ import datetime
 # Define constrains
 host = "127.0.0.1"
 port = 8081
+url="app1.com"
 
 # Initialize classes
 db = DB.db('database.db')
@@ -26,8 +27,8 @@ class app:
     #attributes
     app_code: int 
     app_name: ""
-    app_url:""
-    app_secret_code: ""
+    app_url:url
+    # app_secret_code: ""
 
     #functions
     
@@ -46,28 +47,27 @@ def create_session_id():
     session_id=now.__str__()
     session_id = ''.join(session_id.split())
     return session_id
-
+#main operation of the app:just send user a session id and app code
 def main_operator(input):
-    if input[0] == "login":
-        result=[]
-        result.append(create_session_id())
-        my_query="SELECT app_code FROM app_table WHERE app_name= '"+input[1]+"'"
-        app_code=db.rert(my_query)
-        app_code=app_code[0]
-        app_code=(''.join(map(str, app_code)))
-        result.append(" ")
-        result.append(app_code)
-        result1 = ''.join(result)
-        return str(result1)
-        # print(result1)
-        # app_socket.send_request(result1,8082)
+    # if input[0] == "login":
+    result=[]
+    result.append(create_session_id())
+    my_query="SELECT app_code FROM app_table WHERE app_name= '"+input[1]+"'"
+    app_code=db.rert(my_query)
+    app_code=app_code[0]
+    app_code=(''.join(map(str, app_code)))
+    result.append(" ")
+    result.append(app_code)
+    result1 = ''.join(result)
+    result1 = str(result1)
+    return result1
 
-    elif input[0] == "register":
-        # TODO:do what is needed for register
-        pass
+    # elif input[0] == "register":
+    #     # TODO:do what is needed for register
+    #     pass
    
-    else:
-        return "Command not found"
+    # else:
+    #     return "Command not found"
 
 # app1.handshake("app1","TODO:wait to function register_app")
 # app_socket.start_listening(just_print)
