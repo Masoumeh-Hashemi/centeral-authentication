@@ -8,6 +8,7 @@ import socket
 import DB
 import LAYER7
 
+
 # Define constrains
 dbname = 'database.db'
 host = "127.0.0.1"
@@ -20,6 +21,7 @@ sockett = LAYER7.layer7(host, port)
 # Application functionality
 def main_operator(input):
     if input[0] == "register_user":
+        print("register function done")
         return register_user(input[1], input[2])
         
     elif input[0] == "login_user":
@@ -36,10 +38,16 @@ def main_operator(input):
 ############################################## User##################################################
 # regsiter function,at first it receives an session_id and app_id from requsted user and ask for credentials
 def register_user(session_id,s_app_id):
-    my_query = " INSERT INTO session_table(session_id,s_app_id) VALUES ('"+session_id+"' '"+s_app_id+"') "
+    print("G function for register start")
+    
+    a=str(session_id)
+    print(a)
+    b=str(s_app_id)
+    print(b)
+    my_query = 'INSERT INTO session_table (session_id,s_app_id) VALUES (\''+ a +'\',\'' + b + '\')'
     db.execute(my_query)
-    sockett.send_request("credential",8082)
-    # return s_app_id
+    print( "session_id : " + a + " and app_id: " + b )
+    return "credential"
 
 #user enter credencials (usernmae and password) to be add in users table
 def credential(username,password):
