@@ -46,7 +46,7 @@ def register_user(session_id,s_app_id):
     print(b)
     my_query = 'INSERT INTO session_table (session_id,s_app_id) VALUES (\''+ a +'\',\'' + b + '\')'
     db.execute(my_query)
-    print( "session_id : " + a + " and app_id: " + b )
+    print( " added to session table:session_id : " + a + " and app_id: " + b )
     return "credential"
 
 #user enter credencials (usernmae and password) to be add in users table

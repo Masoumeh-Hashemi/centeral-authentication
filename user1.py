@@ -35,16 +35,21 @@ class user:
         list.append(requested_app)
         str1 = ''.join(list)
         result = user_socket.send_request(str1,8081)
-        result.decode('utf_8')
+        # print(str(result))
+        # result=str(result)
+        # result.decode('utf_8')
         return result
 
 
-    def send_request_to_G(self,input):
-        v="register_user "+input
+    def send_request_to_G(self,inputt):
+        v="register_user "+inputt
         v=str(v)
         print(v)
         result=user_socket.send_request(v,8080)
-        if result=="credential":
+        #TODO: credential is receveid in b'' format should change it to string
+        # if result=="credential":
+        if True:
+            print("if statement worked")
             username=input("Please enter username: ")
             password=input("Please enter password: ")
             list=[]
@@ -54,7 +59,6 @@ class user:
             list.append(" ")
             list.append(password)
             str1 = ''.join(list)
-            str1=str(list)
             print(str1)
             user_socket.send_request(str1,8080)
         return "request to G worked"
@@ -62,7 +66,8 @@ class user:
 
 #main operation of app for sending username/password to G 
 def main_operation(inputt):
-    if inputt[0]=="credential":
+    # print(inputt)
+    if inputt=="credential":
         username=input("Please enter username: ")
         password=input("Please enter password: ")
         list=[]
@@ -83,8 +88,9 @@ sesion_app_id=str(sesion_app_id)
 
 # user_test.receive_G_answer()
 
-g_response=user_test.send_request_to_G(sesion_app_id)
+g_response=user_test.send_request_to_G("sesion_app_id 123")
 print(g_response)
+main_operation(g_response)
 
 # user_socket.start_listening(main_operation)   
 

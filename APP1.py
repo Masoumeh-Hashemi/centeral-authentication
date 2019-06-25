@@ -46,6 +46,7 @@ def create_session_id():
     now = datetime.datetime.now()
     session_id=now.__str__()
     session_id = ''.join(session_id.split())
+    # print(session_id)
     return session_id
 
 #main operation of the app:just send user a session id and app code
@@ -61,6 +62,7 @@ def main_operator(input):
     result.append(app_code)
     result1 = ''.join(result)
     result1 = str(result1)
+    print(result1)
     return result1
 
     # elif input[0] == "register":
