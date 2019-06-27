@@ -41,38 +41,30 @@ class app:
         #should return bool ,appcode
         return app.app_code
 
+
+
 def create_session_id():
     #TODO:make sessionId more complicated
     now = datetime.datetime.now()
     session_id=now.__str__()
     session_id = ''.join(session_id.split())
     # print(session_id)
-    return session_id
+    return str(session_id)
+#user requsted for login and app create session id and app code for user to take it to G
+def send_session_id_app_code_to_user(inputt):
+    session_id = create_session_id()
+    my_query="SELECT app_code FROM app_table WHERE app_name= '"+inputt+"'"
+    app_code=db.rert(my_query)
+    app_code=(''.join(map(str, app_code.pop())))
+    result =session_id + " " + app_code
+    return result
 
 #main operation of the app:just send user a session id and app code
 def main_operator(input):
-    # if input[0] == "login":
-    result=[]
-    result.append(create_session_id())
-    my_query="SELECT app_code FROM app_table WHERE app_name= '"+input[1]+"'"
-    app_code=db.rert(my_query)
-    app_code=app_code[0]
-    app_code=(''.join(map(str, app_code)))
-    result.append(" ")
-    result.append(app_code)
-    result1 = ''.join(result)
-    result1 = str(result1)
-    print(result1)
-    return result1
+    if input[0] == "login":
+        return send_session_id_app_code_to_user(input[1])
+    if input[0] == "register_user":
+        pass
 
-    # elif input[0] == "register":
-    #     # TODO:do what is needed for register
-    #     pass
-   
-    # else:
-    #     return "Command not found"
 
-# app1.handshake("app1","TODO:wait to function register_app")
-# app_socket.start_listening(just_print)
-# app_socket.send_request("register_app golestsn @.com",8080)
 app_socket.start_listening(main_operator)

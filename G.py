@@ -21,8 +21,7 @@ sockett = LAYER7.layer7(host, port)
 # Application functionality
 def main_operator(input):
     if input[0] == "register_user":
-        print("register function done")
-        return register_user(input[1], input[2])
+        return register_user()
         
     elif input[0] == "login_user":
         return login_user(input[1], input[2])
@@ -30,31 +29,39 @@ def main_operator(input):
     elif input[0] == "register_app":
         c= register_app(input[1], input[2])
         return c
-    elif input[0] == "enter_credential":
+    elif input[0] == "enter_credential_for_register_user":
         return credential(input[1], input[2])
    
     else:
         print("command not found")
 ############################################## User##################################################
 # regsiter function,at first it receives an session_id and app_id from requsted user and ask for credentials
-def register_user(session_id,s_app_id):
-    print("G function for register start")
-    
-    a=str(session_id)
-    print(a)
-    b=str(s_app_id)
-    print(b)
-    my_query = 'INSERT INTO session_table (session_id,s_app_id) VALUES (\''+ a +'\',\'' + b + '\')'
-    db.execute(my_query)
-    print( " added to session table:session_id : " + a + " and app_id: " + b )
+def register_user():
+    print("register_user worked")
+    # a=str(session_id)
+    # print(a)
+    # b=str(s_app_id)
+    # print(b)
+    # my_query = 'INSERT INTO session_table (session_id,s_app_id) VALUES (\''+ a +'\',\'' + b + '\')'
+    # db.execute(my_query)
+    # print( " added to session table:session_id : " + a + " and app_id: " + b )
     return "credential"
+
 
 #user enter credencials (usernmae and password) to be add in users table
 def credential(username,password):
     my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
     db.execute(my_query)
+    get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
+    result=db.rert(get_userid_query)
+    result=result[0]
+    result=(''.join(map(str, result)))
+    # add_to_sessiontable_query="INSERT INTO session_table( s_user_id) VALUES ('"+result+"')"
+    # db.execute(add_to_sessiontable_query)
     print( "You are going to register " + username + " with pass: " + password )
-    return ""
+    # return result
+    return "new user added"
+
 
 # login function
 def login_user(username, password):

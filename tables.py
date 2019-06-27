@@ -5,8 +5,9 @@
 import sqlite3
 
 conn=sqlite3.connect('database.db')
+conn.execute("PRAGMA foreign_keys = 1")
 c=conn.cursor()
-c.execute("PRAGMA foreign_keys = ON")
+# c.execute("PRAGMA foreign_keys = ON")
 ################################### user table #######################################
 c.execute("""CREATE TABLE user_table (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,

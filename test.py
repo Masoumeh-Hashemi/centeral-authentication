@@ -78,6 +78,16 @@ db_instance = DB.db('database')
     # conn.execute("INSERT INTO session_table (session_id,s_app_id) VALUES (a,b)"
     # conn.commit()
     
+def credential(username,password):
+    my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
+    db_instance.execute(my_query)
+    get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
+    result=db_instance.rert(get_userid_query)
+    result=result[0]
+    result=(''.join(map(str, result)))
+    add_to_sessiontable_query="INSERT INTO session_table( s_user_id) VALUES ('"+result+"')"
+    db_instance.execute(add_to_sessiontable_query)
+    return ""
 
 #show sessio table
 # db_instance.execute("INSERT INTO session_table( session_id,s_app_id,s_user_id) VALUES ('123txt','123txt','123txt')")
@@ -85,7 +95,4 @@ db_instance = DB.db('database')
 # result=db_instance.rert("SELECT * FROM session_table")
 # print(result)
 # main_operation("credential")
-
-byte_object= b"test" # byte object by literally typing characters
-print(byte_object) # Prints b'test'
-print(byte_object.decode('utf8')) # Prints "test" without quotations
+print(credential("new user","mmmasss"))
