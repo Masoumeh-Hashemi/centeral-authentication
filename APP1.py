@@ -50,6 +50,8 @@ def create_session_id():
     session_id = ''.join(session_id.split())
     # print(session_id)
     return str(session_id)
+
+    
 #user requsted for login and app create session id and app code for user to take it to G
 def send_session_id_app_code_to_user(inputt):
     session_id = create_session_id()

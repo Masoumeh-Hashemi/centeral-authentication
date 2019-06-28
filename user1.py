@@ -32,13 +32,24 @@ class user:
         str = action + " " + requested_app
         result = user_socket.send_request(str,8081)
         return result
-        
+
+
+  
+
     #send register request to App
     def send_register_request_to_app(self):
         action="register_user"
         result = user_socket.send_request(action,8081)
         return result
 
+
+#send session id and app id to G
+def send_login_to_g(appname):
+        test_user1=user()
+        sesion_app_id=test_user1.send_login_request_to_app(appname)
+        a=sesion_app_id.decode('utf-8')
+        str = "loginwithcredential"+" "+ a
+        user_socket.send_request(str,8080)
 
     # def send_register_request_to_G(self):
     #     v="register_user "
@@ -58,8 +69,7 @@ class user:
  
 
 #start user program
-user_test=user()
-sesion_app_id=user_test.send_login_request_to_app('golestanapp')
+send_login_to_g("golestanapp")
 
 
 # user_test.receive_G_answer()

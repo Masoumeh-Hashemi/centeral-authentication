@@ -31,6 +31,9 @@ def main_operator(input):
         return c
     elif input[0] == "enter_credential_for_register_user":
         return credential(input[1], input[2])
+    
+    elif input[0] == "loginwithcredential":
+        return login_with_credential(input[1],input[2])
    
     else:
         print("command not found")
@@ -47,6 +50,20 @@ def register_user():
     # print( " added to session table:session_id : " + a + " and app_id: " + b )
     return "credential"
 
+#user has session id and app code and wants to login
+def login_with_credential(sessionid,appid):
+        # TODO: credential is receveid in b'' format should change it to string
+        username=input("Please enter username: ")
+        password=input("Please enter password: ")
+        get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
+        result=db.rert(get_userid_query)
+        user_id=result.pop()
+        user_id=str(user_id)
+        print("user successfully loged in")
+        add_to_sessiontable_query="INSERT INTO session_table(session_id,s_app_id,s_user_id) VALUES ('"+sessionid+"','"+appid+"','"+user_id+"')"
+
+        db.execute(add_to_sessiontable_query)
+        return ""
 
 #user enter credencials (usernmae and password) to be add in users table
 def credential(username,password):
