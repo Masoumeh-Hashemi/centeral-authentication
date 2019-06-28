@@ -51,19 +51,22 @@ def register_user():
     return "credential"
 
 #user has session id and app code and wants to login
+#code working well
 def login_with_credential(sessionid,appid):
-        # TODO: credential is receveid in b'' format should change it to string
         username=input("Please enter username: ")
         password=input("Please enter password: ")
         get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
         result=db.rert(get_userid_query)
-        user_id=result.pop()
-        user_id=str(user_id)
-        print("user successfully loged in")
-        add_to_sessiontable_query="INSERT INTO session_table(session_id,s_app_id,s_user_id) VALUES ('"+sessionid+"','"+appid+"','"+user_id+"')"
-
-        db.execute(add_to_sessiontable_query)
-        return ""
+        if result == []:
+            print("wrong username or password")
+            return login_with_credential(sessionid,appid)
+        elif result!= []:
+            user_id=(''.join(map(str, result.pop())))
+            print(user_id)
+            print("user successfully loged in")
+            add_to_sessiontable_query="INSERT INTO session_table(session_id,s_app_id,s_user_id) VALUES ('"+sessionid+"','"+appid+"','"+user_id+"')"
+            db.execute(add_to_sessiontable_query)
+            return ""
 
 #user enter credencials (usernmae and password) to be add in users table
 def credential(username,password):

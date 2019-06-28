@@ -11,6 +11,7 @@ port = 8082
 # Initialize classes
 user_socket = LAYER7.layer7(host, port)
 
+
 class user:
     user_id=int
     user_password=""
@@ -21,10 +22,7 @@ class user:
     #     # self.user_username=Username
     #     # self.user_password=Password
 
-    def Login(self):
-        pass
-        # return user.user_id
-
+ 
     #send a login request to app on app socket and app return a session id and app code
     def send_login_request_to_app(self,url):
         action="login"
@@ -34,8 +32,6 @@ class user:
         return result
 
 
-  
-
     #send register request to App
     def send_register_request_to_app(self):
         action="register_user"
@@ -43,39 +39,22 @@ class user:
         return result
 
 
-#send session id and app id to G
-def send_login_to_g(appname):
-        test_user1=user()
-        sesion_app_id=test_user1.send_login_request_to_app(appname)
-        a=sesion_app_id.decode('utf-8')
-        str = "loginwithcredential"+" "+ a
-        user_socket.send_request(str,8080)
-
-    # def send_register_request_to_G(self):
-    #     v="register_user "
-    #     result=user_socket.send_request(v,8080)
-    #     #TODO: credential is receveid in b'' format should change it to string
-    #     # if result=="True":
-    #     if True:
-    #         print("if statement worked")
-    #         username=input("Please enter username: ")
-    #         password=input("Please enter password: ")
-    #         print("username and password send to G")
-    #         str="enter_credential_for_register_user" + " "+ username + " " + password
-    #         user_socket.send_request(str,8080)
-    #     return ""
+    #send session id and app id to G
+    def send_login_to_g(self,appname):
+            test_user1=user()
+            sesion_app_id=test_user1.send_login_request_to_app(appname)
+            a=sesion_app_id.decode('utf-8')
+            str = "loginwithcredential"+" "+ a
+            user_socket.send_request(str,8080)
 
 
  
 
 #start user program
-send_login_to_g("golestanapp")
+test_user=user()
+test_user.send_login_to_g("golestanapp")
 
 
-# user_test.receive_G_answer()
-# g_response=user_test.send_register_request_to_app()
-# print(g_response)
-# print(type(g_response))
 
 # main_operation(g_response)
 # user_socket.start_listening(main_operation)   

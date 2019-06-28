@@ -21,7 +21,7 @@ url="app1.com"
 # Initialize classes
 db = DB.db('database.db')
 app_socket = LAYER7.layer7(host, port)
-
+list_of_session_id=[]
 
 class app:
     #attributes
@@ -42,13 +42,12 @@ class app:
         return app.app_code
 
 
-
+#
 def create_session_id():
     #TODO:make sessionId more complicated
     now = datetime.datetime.now()
     session_id=now.__str__()
     session_id = ''.join(session_id.split())
-    # print(session_id)
     return str(session_id)
 
     
@@ -59,14 +58,22 @@ def send_session_id_app_code_to_user(inputt):
     app_code=db.rert(my_query)
     app_code=(''.join(map(str, app_code.pop())))
     result =session_id + " " + app_code
+    list_of_session_id.append(result)
+    print(list_of_session_id)
     return result
+
+def request_for_receive_user_id():
+    last_sessionid_appid="getuserid"+" "+str(list_of_session_id.pop(0))
+    print(last_sessionid_appid)
+    app_socket.send_request(last_sessionid_appid,8080)
 
 #main operation of the app:just send user a session id and app code
 def main_operator(input):
     if input[0] == "login":
         return send_session_id_app_code_to_user(input[1])
     if input[0] == "register_user":
+        #TODO:register part
         pass
 
-
 app_socket.start_listening(main_operator)
+request_for_receive_user_id()
