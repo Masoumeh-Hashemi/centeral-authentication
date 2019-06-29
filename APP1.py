@@ -59,11 +59,15 @@ def send_session_id_app_code_to_user(inputt):
     app_code=(''.join(map(str, app_code.pop())))
     result =session_id + " " + app_code
     list_of_session_id.append(result)
-    print(list_of_session_id)
+    # print(list_of_session_id)
+    
     return result
 
 def request_for_receive_user_id():
-    last_sessionid_appid="getuserid"+" "+str(list_of_session_id.pop(0))
+    result=list_of_session_id.pop()
+    print(result)
+    list_of_session_id1=(''.join(map(str, result)))
+    last_sessionid_appid="getuserid"+" "+list_of_session_id1
     print(last_sessionid_appid)
     app_socket.send_request(last_sessionid_appid,8080)
 
