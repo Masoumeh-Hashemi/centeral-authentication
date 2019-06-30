@@ -22,34 +22,22 @@ sockett = LAYER7.layer7(host, port)
 def main_operator(input):
     if input[0] == "register_user":
         return register_user()
-        
-    elif input[0] == "login_user":
-        return login_user(input[1], input[2])
 
     elif input[0] == "register_app":
         c= register_app(input[1], input[2])
         return c
-    elif input[0] == "enter_credential_for_register_user":
-        return credential(input[1], input[2])
-    
+
+    #user has sessionid + appid from app and wants to login
     elif input[0] == "loginwithcredential":
         return login_with_credential(input[1],input[2])
    
+    elif input[0] == "get_user_id":
+        return 
     else:
         print("command not found")
 ############################################## User##################################################
-# regsiter function,at first it receives an session_id and app_id from requsted user and ask for credentials
-def register_user():
-    print("register_user worked")
-    # a=str(session_id)
-    # print(a)
-    # b=str(s_app_id)
-    # print(b)
-    # my_query = 'INSERT INTO session_table (session_id,s_app_id) VALUES (\''+ a +'\',\'' + b + '\')'
-    # db.execute(my_query)
-    # print( " added to session table:session_id : " + a + " and app_id: " + b )
-    return "credential"
 
+# LOGIN USER
 #user has session id and app code and wants to login
 #code working well
 def login_with_credential(sessionid,appid):
@@ -68,33 +56,19 @@ def login_with_credential(sessionid,appid):
             db.execute(add_to_sessiontable_query)
             return ""
 
-#user enter credencials (usernmae and password) to be add in users table
-def credential(username,password):
+        
+#REGISTER USER
+# regsiter function,at first it receives an session_id and app_id from requsted user and ask for credentials
+def register_user():
+    print("register_user worked")
+    username=input("Please enter username: ")
+    password=input("Please enter password: ")
     my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
     db.execute(my_query)
-    get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
-    result=db.rert(get_userid_query)
-    result=result[0]
-    result=(''.join(map(str, result)))
-    # add_to_sessiontable_query="INSERT INTO session_table( s_user_id) VALUES ('"+result+"')"
-    # db.execute(add_to_sessiontable_query)
     print( "You are going to register " + username + " with pass: " + password )
     # return result
     return "new user added"
 
-
-# login function
-def login_user(username, password):
-    a=username
-    b=password
-    
-    my_query="SELECT * FROM user_table WHERE user_username= '"+a+"' AND user_password= '"+b+"'"
-    result = db.rert(my_query)
-    if not result:
-        print("wrong username or password")
-    if result:    
-       print("You are going to login with  '"+ a +"'  and pass:  '"+ b +"' ") 
-    return ""
 
 ################################################App##################################################
 #create random string for app_secret_code
@@ -123,3 +97,4 @@ def register_app(appname, url):
 # Run app
 while True:
     sockett.start_listening(main_operator)
+    

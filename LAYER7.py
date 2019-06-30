@@ -4,6 +4,9 @@
 
 # Importing dependecies
 import socket
+from _thread import *
+import threading
+print_lock = threading.Lock() 
 
 class layer7:
 
@@ -38,12 +41,14 @@ class layer7:
         serv.listen(5)
         # Accept packets
         while True:
-            conn, addr = serv.accept()      
+            conn, addr = serv.accept() 
             # Network stuff
             with conn:
                 # Recieve data
                 data_ready = ''
                 while True:
+                    # data=threading.Thread(conn.recv(4096),)
+                    # threading.Thread.start(self)
                     data = conn.recv(4096)
                     if not data: 
                         break
@@ -56,4 +61,7 @@ class layer7:
                     conn.send(bytes(result, encoding = "UTF-8"))
                     # Close connection
             conn.close()   
-        serv.close()   
+        serv.close()
+
+
+

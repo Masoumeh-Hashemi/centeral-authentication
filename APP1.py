@@ -7,10 +7,9 @@ import socket
 import DB
 import LAYER7
 import time
-#TODO:how to import these two whrandom,md5
-# import whrandom
-# import md5
 import datetime
+from _thread import *
+import threading
 
 
 # Define constrains
@@ -42,7 +41,7 @@ class app:
         return app.app_code
 
 
-#
+#create session id 
 def create_session_id():
     #TODO:make sessionId more complicated
     now = datetime.datetime.now()
@@ -60,24 +59,43 @@ def send_session_id_app_code_to_user(inputt):
     result =session_id + " " + app_code
     list_of_session_id.append(result)
     # print(list_of_session_id)
-    
     return result
 
+#user now has sent the session id and app id to G, and App wants to know wich user it was
 def request_for_receive_user_id():
     result=list_of_session_id.pop()
     print(result)
     list_of_session_id1=(''.join(map(str, result)))
-    last_sessionid_appid="getuserid"+" "+list_of_session_id1
-    print(last_sessionid_appid)
+    last_sessionid_appid="get_user_id"+" "+list_of_session_id1
     app_socket.send_request(last_sessionid_appid,8080)
+    # return last_sessionid_appid
+    # print(last_sessionid_appid)
+
+
+############################################ register_user ################################
+#redirect user for register to G
+def register_user(input):
+        return "register_user"
+#############################################################################################
 
 #main operation of the app:just send user a session id and app code
 def main_operator(input):
     if input[0] == "login":
-        return send_session_id_app_code_to_user(input[1])
+        result=send_session_id_app_code_to_user(input[1])
+        request_for_receive_user_id()
+        return result
     if input[0] == "register_user":
-        #TODO:register part
-        pass
+        return register_user(input[0])
 
-app_socket.start_listening(main_operator)
-request_for_receive_user_id()
+############################################################################################
+#a function for listening to network that will be handelled by a thread
+def listening():
+    app_socket.start_listening(main_operator)
+    
+    
+
+#define 2 threads for listening and do the rest
+thread1 = threading.Thread(target = listening(),)
+thread1.start()
+# thread2 = threading.Thread(target = request_for_receive_user_id(),)
+# thread2.start()

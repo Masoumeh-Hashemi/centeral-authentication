@@ -6,6 +6,8 @@ import sqlite3
 import LAYER7
 # import socket
 import DB
+import threading
+import time
 # import G
 host = "127.0.0.1"
 port = 8082
@@ -78,16 +80,16 @@ db_instance = DB.db('database')
     # conn.execute("INSERT INTO session_table (session_id,s_app_id) VALUES (a,b)"
     # conn.commit()
     
-def credential(username,password):
-    my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
-    db_instance.execute(my_query)
-    get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
-    result=db_instance.rert(get_userid_query)
-    result=result[0]
-    result=(''.join(map(str, result)))
-    add_to_sessiontable_query="INSERT INTO session_table( s_user_id) VALUES ('"+result+"')"
-    db_instance.execute(add_to_sessiontable_query)
-    return ""
+# def credential(username,password):
+    # my_query = "INSERT INTO user_table( user_username,user_password) VALUES ('"+username+"','"+password+"')"
+    # db_instance.execute(my_query)
+    # get_userid_query="SELECT user_id FROM user_table WHERE user_username= '"+username+"' AND user_password= '"+password+"'"
+    # result=db_instance.rert(get_userid_query)
+    # result=result[0]
+    # result=(''.join(map(str, result)))
+    # add_to_sessiontable_query="INSERT INTO session_table( s_user_id) VALUES ('"+result+"')"
+    # db_instance.execute(add_to_sessiontable_query)
+    # return ""
 
 #show sessio table
 # db_instance.execute("INSERT INTO session_table( session_id,s_app_id,s_user_id) VALUES ('123txt','123txt','123txt')")
@@ -95,4 +97,46 @@ def credential(username,password):
 # result=db_instance.rert("SELECT * FROM session_table")
 # print(result)
 # main_operation("credential")
-print(credential("new user","mmmasss"))
+# print(credential("new user","mmmasss"))
+
+
+# def fun1(a, b):
+#     time.sleep(1)
+#     c = a + b
+#     print(c)
+# thread1 = threading.Thread(target = fun1, args = (12, 10))
+# thread1.start()
+# thread2 = threading.Thread(target = fun1, args = (10, 17))
+# thread2.start()
+# print(“Total number of threads”, threading.activeCount())
+
+import socket, threading
+class ClientThread(threading.Thread):
+    def __init__(self,clientAddress,clientsocket):
+        threading.Thread.__init__(self)
+        self.csocket = clientsocket
+        print ("New connection added: ", clientAddress)
+    def run(self):
+        print ("Connection from : ", clientAddress)
+        #self.csocket.send(bytes("Hi, This is from Server..",'utf-8'))
+        msg = ''
+        while True:
+            data = self.csocket.recv(2048)
+            msg = data.decode()
+            if msg=='bye':
+              break
+            print ("from client", msg)
+            self.csocket.send(bytes(msg,'UTF-8'))
+        print ("Client at ", clientAddress , " disconnected...")
+LOCALHOST = "127.0.0.1"
+PORT = 8080
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server.bind((LOCALHOST, PORT))
+print("Server started")
+print("Waiting for client request..")
+while True:
+    server.listen(1)
+    clientsock, clientAddress = server.accept()
+    newthread = ClientThread(clientAddress, clientsock)
+    newthread.start()

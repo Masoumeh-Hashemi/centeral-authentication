@@ -22,6 +22,7 @@ class user:
     #     # self.user_username=Username
     #     # self.user_password=Password
 
+######################################login user#######################################
  
     #send a login request to app on app socket and app return a session id and app code
     def send_login_request_to_app(self,url):
@@ -29,17 +30,12 @@ class user:
         requested_app=url
         str = action + " " + requested_app
         result = user_socket.send_request(str,8081)
+        # user_socket.send_request(result,8081)
         return result
 
 
-    #send register request to App
-    def send_register_request_to_app(self):
-        action="register_user"
-        result = user_socket.send_request(action,8081)
-        return result
-
-
-    #send session id and app id to G
+  #send session id and app id to G : this function at first send request to app buy this function send_login_request_to_app()
+#   and take the result to g, and log in sucessfully
     def send_login_to_g(self,appname):
             test_user1=user()
             sesion_app_id=test_user1.send_login_request_to_app(appname)
@@ -47,17 +43,33 @@ class user:
             str = "loginwithcredential"+" "+ a
             user_socket.send_request(str,8080)
 
+##################################### register user #############################
+    #send register request to App
+    def send_register_request_to_app(self,url):
+        action="register_user"
+        requested_app=url
+        str = action + " " + requested_app
+        result = user_socket.send_request(str,8081)
+        return result
 
- 
+     #send session id and app id to G
+    def send_register_to_g(self,appname):
+            test_user1=user()
+            str1=test_user1.send_register_request_to_app(appname)
+            a=str1.decode('utf-8')
+            user_socket.send_request(a,8080)
+
+  ################################ start #####################################
 
 #start user program
 test_user=user()
-test_user.send_login_to_g("golestanapp")
 
+#this line can register a user successfully to g
+# test_user.send_register_to_g('golestanapp')
 
+test_user.send_login_to_g('golestanapp')
 
 # main_operation(g_response)
-# user_socket.start_listening(main_operation)   
 
 
 
