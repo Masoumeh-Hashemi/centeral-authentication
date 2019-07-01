@@ -110,33 +110,46 @@ db_instance = DB.db('database')
 # thread2.start()
 # print(“Total number of threads”, threading.activeCount())
 
-import socket, threading
-class ClientThread(threading.Thread):
-    def __init__(self,clientAddress,clientsocket):
-        threading.Thread.__init__(self)
-        self.csocket = clientsocket
-        print ("New connection added: ", clientAddress)
-    def run(self):
-        print ("Connection from : ", clientAddress)
-        #self.csocket.send(bytes("Hi, This is from Server..",'utf-8'))
-        msg = ''
-        while True:
-            data = self.csocket.recv(2048)
-            msg = data.decode()
-            if msg=='bye':
-              break
-            print ("from client", msg)
-            self.csocket.send(bytes(msg,'UTF-8'))
-        print ("Client at ", clientAddress , " disconnected...")
-LOCALHOST = "127.0.0.1"
-PORT = 8080
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server.bind((LOCALHOST, PORT))
-print("Server started")
-print("Waiting for client request..")
-while True:
-    server.listen(1)
-    clientsock, clientAddress = server.accept()
-    newthread = ClientThread(clientAddress, clientsock)
-    newthread.start()
+# import socket, threading
+# class ClientThread(threading.Thread):
+#     def __init__(self,clientAddress,clientsocket):
+#         threading.Thread.__init__(self)
+#         self.csocket = clientsocket
+#         print ("New connection added: ", clientAddress)
+#     def run(self):
+#         print ("Connection from : ", clientAddress)
+#         #self.csocket.send(bytes("Hi, This is from Server..",'utf-8'))
+#         msg = ''
+#         while True:
+#             data = self.csocket.recv(2048)
+#             msg = data.decode()
+#             if msg=='bye':
+#               break
+#             print ("from client", msg)
+#             self.csocket.send(bytes(msg,'UTF-8'))
+#         print ("Client at ", clientAddress , " disconnected...")
+# LOCALHOST = "127.0.0.1"
+# PORT = 8080
+# server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+# server.bind((LOCALHOST, PORT))
+# print("Server started")
+# print("Waiting for client request..")
+# while True:
+#     server.listen(1)
+#     clientsock, clientAddress = server.accept()
+#     newthread = ClientThread(clientAddress, clientsock)
+#     newthread.start()
+
+def check_app_secret_code(app_secret_code,app_code):
+    my_query="SELECT app_secret_code FROM app_table WHERE app_code ='"+app_code+"' "
+    result=db_instance.rert(my_query)
+    retrved_app_secret_code=(''.join(map(str, result.pop())))
+    if retrved_app_secret_code == app_secret_code:
+        print("done")
+        return True
+    else:
+        print("not done")
+        return False
+
+check_app_secret_code("12345678","3")

@@ -32,7 +32,11 @@ def main_operator(input):
         return login_with_credential(input[1],input[2])
    
     elif input[0] == "get_user_id":
-        return 
+        return return_logged_user_id_to_app(input[1],input[2])
+
+    elif input[0] == "app_secret_code":
+        return check_app_secret_code(input[1],input[2])
+        
     else:
         print("command not found")
 ############################################## User##################################################
@@ -70,7 +74,7 @@ def register_user():
     return "new user added"
 
 
-################################################App##################################################
+################################################ App ##################################################
 #create random string for app_secret_code
 def generate_random_string():
     stringLength = 8
@@ -91,9 +95,26 @@ def register_app(appname, url):
     # sockett.send_request(c,8081)
     # print(c)
     return c
+########################################## check app secret code ##########################################
+#app send its app_code and app_secret_code and G check if they are synche
+def check_app_secret_code(app_secret_code,app_code):
+    my_query="SELECT app_secret_code FROM app_table WHERE app_code ='"+app_code+"' "
+    result=db.rert(my_query)
+    retrved_app_secret_code=(''.join(map(str, result.pop())))
+    if retrved_app_secret_code == app_secret_code:
+        return "True"
+    else:
+        return "False"
+########################################## return logged userid to app #######################################
+#this function must return related user id from session table that has session id and appcode 
+def return_logged_user_id_to_app(session_id,app_id):
+    my_query = "SELECT s_user_id FROM session_table WHERE session_id= '"+session_id+"' AND s_app_id= '"+app_id+"'"
+    result=db.rert(my_query)
+    user_id=(''.join(map(str, result.pop())))
+    print (user_id)
+    return user_id
 
-
-
+########################################### run G server ###################################################
 # Run app
 while True:
     sockett.start_listening(main_operator)
