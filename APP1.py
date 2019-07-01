@@ -39,8 +39,16 @@ class app:
         
         #should return bool ,appcode
         return app.app_code
+################################### Register APP ##################################
+#TODO:register requset for app
+def register_request_to_g(appname,url):
+    str="register_app "+ appname +" " + url
+    result = app_socket.send_request(str,8080)
+    return result
 
-#####################################################################################
+
+
+########################################## Redirect user to G for log in ###########################################
 #create session id 
 def create_session_id():
     #TODO:make sessionId more complicated
@@ -64,6 +72,7 @@ def send_session_id_app_code_to_user(inputt):
 
 #user now has sent the session id and app id to G, and App wants to know wich user it was
 # first step: send app code and app_secret code to G
+
 def request_for_check_app_secret_code():
     retreived_session_app_id=list_of_session_id[0]
     #app should send app-secret-code to G before receving user id
@@ -76,6 +85,8 @@ def request_for_check_app_secret_code():
         return result1
     if app_secret_code == []:
         print("this app is not registred")
+
+
 #after checking app_secret code,by above function,now its time to receive user ids
 def request_for_receive_user_id():
     result=request_for_check_app_secret_code()
@@ -115,10 +126,15 @@ def listening():
     app_socket.start_listening(main_operator)
     
 
+## this line register a app to G
+register_request_to_g('automation','automation.com')
 
-request_for_check_app_secret_code()
-request_for_receive_user_id()
+
+##this two line check app secret code in G ##
+# request_for_check_app_secret_code()
 # request_for_receive_user_id()
+
+
 #define 2 threads for listening and do the rest
 # thread2 = threading.Thread(target = request_for_receive_user_id(),)
 # thread2.start()

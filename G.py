@@ -91,9 +91,6 @@ def register_app(appname, url):
     my_query = "INSERT INTO app_table(app_secret_code,app_name,app_url) VALUES ('"+c+"','"+a+"','"+b+"')"
     db.execute(my_query)
     print("App " + a + " registered with URL: " + b)   
-    #TODO:i want send this result to app
-    # sockett.send_request(c,8081)
-    # print(c)
     return c
 ########################################## check app secret code ##########################################
 #app send its app_code and app_secret_code and G check if they are synche

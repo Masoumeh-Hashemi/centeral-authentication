@@ -141,15 +141,15 @@ db_instance = DB.db('database')
 #     newthread = ClientThread(clientAddress, clientsock)
 #     newthread.start()
 
-def check_app_secret_code(app_secret_code,app_code):
-    my_query="SELECT app_secret_code FROM app_table WHERE app_code ='"+app_code+"' "
-    result=db_instance.rert(my_query)
-    retrved_app_secret_code=(''.join(map(str, result.pop())))
-    if retrved_app_secret_code == app_secret_code:
-        print("done")
-        return True
-    else:
-        print("not done")
-        return False
+# def check_app_secret_code(app_secret_code,app_code):
+#     my_query="SELECT app_secret_code FROM app_table WHERE app_code ='"+app_code+"' "
+#     result=db_instance.rert(my_query)
+#     retrved_app_secret_code=(''.join(map(str, result.pop())))
+#     if retrved_app_secret_code == app_secret_code:
+#         print("done")
+#         return True
+#     else:
+#         print("not done")
+#         return False
 
-check_app_secret_code("12345678","3")
+# check_app_secret_code("12345678","3")
