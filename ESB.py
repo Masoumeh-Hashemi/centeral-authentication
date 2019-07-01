@@ -37,6 +37,7 @@ class esb:
 
     ############################################ send events to apps #################################
     #send list of users to who ask for it and should return a list
+    # at first with secret channel code ,retrive the channel number and then ,in event table return all the users on that channel
     def send_events_to_apps(self,channel_secret1):
          my_query= "SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret1+"'"
          result=db.rert(my_query)
@@ -52,26 +53,42 @@ class esb:
          return str1
 
 
+######################################### add subscriber to a channel ####################################
 
-
-    def add_subscriber(self,app_secret_code,channel_secret_id):
+    def add_subscriber(self,app_secret_code1,channel_secret_id):
         #should return boolean
-        pass
+        # app give secret channel and esb 
+        my_query="SELECT app_code FROM app_table WHERE app_secret_code='"+app_secret_code1+"' "
+        result=db.rert(my_query) 
+        retrived_app_code=(''.join(map(str, result.pop())))
+
+        my_query="SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret_id+"' "
+        result=db.rert(my_query) 
+        retrived_channel_id=(''.join(map(str, result.pop())))
+        # "UPDATE ExampleTable SET Age = 18 WHERE Age = 17"
+        my_query="UPDATE app_table SET app_channel_id='"+retrived_channel_id+"' WHERE app_code='"+retrived_app_code+"' "
+        db.execute(my_query)
+        return "app added to channel"
+
+
+######################################## delete subsciber ################################################
     def delete_subscriber(self,app_secret_code,channel_secret_id):
         #delete a subscriber and should return boolean
         pass
+
+###################################### send data #########################################################
     def send_data(self,channel_id,appcode): 
         #shold send data in response
         pass
     
-
+###################################### and a new channel to esb ##########################################
     #add new channel to channel lists
     def create_channel_for_esb(self,channel_name):
         channel_secret_code = uuid.uuid4().hex 
         my_query="INSERT INTO esb_table (channel_name,channel_secret) VALUES ('"+channel_name+"','"+channel_secret_code+"')"
         db.execute(my_query)
 
-
+###################################### receive login event ##############################################
     #receive event from G and save to assosiation table and it need channel id,app,id,user id
     def receive_login_event(self,app_id,user_id,channel_id):
         my_query = "INSERT INTO esb_assosiation_table (a_app_code,a_user_id,a_channel_id) VALUES ('"+app_id+"','"+user_id+"','"+channel_id+"')"
@@ -91,7 +108,14 @@ def main_operator(input):
 
     if input[0] == "request_for_event":
         esb_instance= esb()
+        #input[1]=channelsecret code
         return esb_instance.send_events_to_apps(input[1])
+
+    if input[0] == "add_subscriber":
+        esb_instance= esb()
+        #input[1]=app_secret_code
+        #input[2]=channel_secret_code
+        return esb_instance.add_subscriber(input[1],input[2])
 
 
 ########################################### start esb ###############################################

@@ -8,6 +8,13 @@ import LAYER7
 import DB
 import threading
 import time
+import socket
+import DB
+import LAYER7
+import time
+import datetime
+from _thread import *
+import threading
 # import G
 host = "127.0.0.1"
 port = 8082
@@ -180,14 +187,56 @@ db_instance = DB.db('database')
 
 # pick_login_events('golestanapp')
 
-channel_id="2"
-my_query="SELECT a_user_id FROM esb_assosiation_table WHERE a_channel_id='"+channel_id+"'"
-result1=db_instance.rert(my_query)
+# channel_id="2"
+# my_query="SELECT a_user_id FROM esb_assosiation_table WHERE a_channel_id='"+channel_id+"'"
+# result1=db_instance.rert(my_query)
 
-list=[]
-for a_tuple in result1:  # iterates through each tuple
-    for item in a_tuple:  # iterates through each tuple items
-        list.append(item)
-print(list)
-str1 = ' '.join(str(e) for e in list)
-print(str1)
+# list=[]
+# for a_tuple in result1:  # iterates through each tuple
+#     for item in a_tuple:  # iterates through each tuple items
+#         list.append(item)
+# print(list)
+# str1 = ' '.join(str(e) for e in list)
+# print(str1)
+
+
+# def add_subscriber(app_secret_code1,channel_secret_id):
+#         #should return boolean
+#         # app give secret channel and esb 
+#         my_query="SELECT app_code FROM app_table WHERE app_secret_code='"+app_secret_code1+"' "
+#         result=db_instance.rert(my_query) 
+#         retrived_app_code=(''.join(map(str, result.pop())))
+#         print(retrived_app_code)
+
+#         my_query="SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret_id+"' "
+#         result=db_instance.rert(my_query) 
+#         retrived_channel_id=(''.join(map(str, result.pop())))
+#         print(retrived_channel_id)
+# # "UPDATE ExampleTable SET Age = 18 WHERE Age = 17"
+#         my_query="UPDATE app_table SET app_channel_id='"+retrived_channel_id+"' WHERE app_code='"+retrived_app_code+"' "
+#         db_instance.execute(my_query)
+#         return "app added to channel"
+
+
+# add_subscriber("59392564","fd819322a8fc4da6a706e51de5a05e6c")
+
+
+
+def subcribe_to_channel(appname,channelname):
+    my_query1="SELECT app_secret_code FROM app_table WHERE app_name =='"+appname+"' "
+    result=db_instance.rert(my_query1)
+    app_secret_code=result[0].__str__()
+    # app_secret_code=(''.join(map(str, result.pop())))
+    # app_secret_code=(''.join(map(str, result))
+    my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name =='"+channelname+"' "
+    result2 = db_instance.rert(my_query2)
+    channel_secret_code= result2[0].__str__()
+    # channel_secret_code=(''.join(map(str, result2))
+    # channel_secret_code=(''.join(map(str, result2.pop())))
+
+
+    str="add_subscriber"+app_secret_code + channel_secret_code
+    print(str)
+    return "str"
+
+subcribe_to_channel("golestanapp","first channel")

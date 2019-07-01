@@ -119,10 +119,19 @@ def pick_login_events(inputt):
     my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_id=='"+channel_number+"' "
     result2 = db.rert(my_query2)
     channel_secret="request_for_event "+(''.join(map(str, result2.pop())))
-    print(channel_secret)
     app_socket.send_request(channel_secret,8083)
 
+################################# subcribe to a channel #######################################
+# def subcribe_to_channel(appname,channelname):
+#     my_query1="SELECT app_secret_code FROM app_table WHERE app_name=='"+appname+"' "
+#     result=db.rert(my_query1)
+#     app_secret_code=(''.join(map(str, result.pop()))
 
+#     my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name=='"+channelname+"' "
+#     result2 = db.rert(my_query2)
+#     channel_secret_code=(''.join(map(str, result2.pop())))
+#     str="add_subscriber"+app_secret_code + channel_secret_code
+    # return str
 
 ################################## main operation #############################################
 
