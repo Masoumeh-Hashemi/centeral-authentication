@@ -122,16 +122,28 @@ def pick_login_events(inputt):
     app_socket.send_request(channel_secret,8083)
 
 ################################# subcribe to a channel #######################################
-# def subcribe_to_channel(appname,channelname):
-#     my_query1="SELECT app_secret_code FROM app_table WHERE app_name=='"+appname+"' "
-#     result=db.rert(my_query1)
-#     app_secret_code=(''.join(map(str, result.pop()))
+def subcribe_to_channel(appname,channelname1):
+    my_query1="SELECT app_secret_code FROM app_table WHERE app_name=='"+appname+"' "
+    result=db.rert(my_query1)
+    app_secret_code=(''.join(map(str, result.pop())))
+    
+    my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name=='"+channelname1+"' "
+    result2 = db.rert(my_query2)
+    #TODO:why str function doesnt work
+    channel_secret_code=(''.join(map(str, result2.pop())))
+    string_to_send="add_subscriber "+app_secret_code +" "+ channel_secret_code
+    print(string_to_send)
+    app_socket.send_request(string_to_send,8083)
 
-#     my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name=='"+channelname+"' "
-#     result2 = db.rert(my_query2)
-#     channel_secret_code=(''.join(map(str, result2.pop())))
-#     str="add_subscriber"+app_secret_code + channel_secret_code
-    # return str
+#################################### leave a channel #########################################
+def leave_channel(appname):
+    my_query1="SELECT app_secret_code FROM app_table WHERE app_name=='"+appname+"' "
+    result=db.rert(my_query1)
+    app_secret_code=(''.join(map(str, result.pop())))
+    string_to_send="unsubscribe "+app_secret_code
+    print(string_to_send)
+    app_socket.send_request(string_to_send,8083)
+
 
 ################################## main operation #############################################
 
@@ -162,9 +174,15 @@ def listening():
 # request_for_receive_user_id()
 
 
+subcribe_to_channel('refahi1','first channel')
+
+
+# leave_channel("refahi")
+
+
 #define 2 threads for listening and do the rest
-thread2 = threading.Thread(target = pick_login_events('golestanapp'),)
-thread2.start()
+# thread2 = threading.Thread(target = subcribe_to_channel('automation','first channel'))
+# thread2.start()
 thread1 = threading.Thread(target = listening(),)
 thread1.start()
 

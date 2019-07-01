@@ -54,7 +54,7 @@ class esb:
 
 
 ######################################### add subscriber to a channel ####################################
-
+# TODO:APP part has been left,should test them together
     def add_subscriber(self,app_secret_code1,channel_secret_id):
         #should return boolean
         # app give secret channel and esb 
@@ -65,18 +65,24 @@ class esb:
         my_query="SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret_id+"' "
         result=db.rert(my_query) 
         retrived_channel_id=(''.join(map(str, result.pop())))
-        # "UPDATE ExampleTable SET Age = 18 WHERE Age = 17"
         my_query="UPDATE app_table SET app_channel_id='"+retrived_channel_id+"' WHERE app_code='"+retrived_app_code+"' "
         db.execute(my_query)
         return "app added to channel"
 
 
 ######################################## delete subsciber ################################################
-    def delete_subscriber(self,app_secret_code,channel_secret_id):
+
+    def delete_subscriber(self,app_secret_code1):
         #delete a subscriber and should return boolean
-        pass
+        my_query="SELECT app_code FROM app_table WHERE app_secret_code=='"+app_secret_code1+"' "
+        result=db.rert(my_query) 
+        retrived_app_code=(''.join(map(str, result.pop())))
+        my_query="UPDATE app_table SET app_channel_id='' WHERE app_code=='"+retrived_app_code+"' "
+        db.execute(my_query)
+        return "app deleted from channel"
 
 ###################################### send data #########################################################
+
     def send_data(self,channel_id,appcode): 
         #shold send data in response
         pass
@@ -97,7 +103,7 @@ class esb:
         return "event added"
 
 
-########################################### main operator #########################################
+########################################### main operator ###############################################
 
 
 def main_operator(input):
@@ -117,7 +123,13 @@ def main_operator(input):
         #input[2]=channel_secret_code
         return esb_instance.add_subscriber(input[1],input[2])
 
+    if input[0] == "unsubscribe":
+        esb_instance= esb()
+        #input[1]=app_secret_code
+        return esb_instance.delete_subscriber(input[1])
 
+    # elif:
+    #     print("command not found")
 ########################################### start esb ###############################################
 test_esb= esb()
 # test_esb.create_channel_for_esb("second channel")

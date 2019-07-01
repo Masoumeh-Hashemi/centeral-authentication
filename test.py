@@ -15,6 +15,7 @@ import time
 import datetime
 from _thread import *
 import threading
+import string
 # import G
 host = "127.0.0.1"
 port = 8082
@@ -222,21 +223,33 @@ db_instance = DB.db('database')
 
 
 
-def subcribe_to_channel(appname,channelname):
-    my_query1="SELECT app_secret_code FROM app_table WHERE app_name =='"+appname+"' "
+# def subcribe_to_channel(appname,channelname):
+#     my_query1="SELECT app_secret_code FROM app_table WHERE app_name =='"+appname+"' "
+#     result=db_instance.rert(my_query1)
+#     app_secret_code=result[0].__str__()
+#     # app_secret_code=(''.join(map(str, result.pop())))
+#     # app_secret_code=(''.join(map(str, result))
+#     my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name =='"+channelname+"' "
+#     result2 = db_instance.rert(my_query2)
+#     # channel_secret_code= result2[0].__str__()
+#     app_secret_code1=str.__str__(app_secret_code).strip('[]')
+#     # channel_secret_code=(''.join(map(str, result2))
+#     # channel_secret_code=(''.join(map(str, result2.pop())))
+
+
+#     str="add_subscriber"+app_secret_code + channel_secret_code
+#     print(str)
+#     return "str"
+
+# subcribe_to_channel("golestanapp","first channel")
+
+
+def leave_channel(appname):
+    my_query1="SELECT app_secret_code FROM app_table WHERE app_name=='"+appname+"' "
     result=db_instance.rert(my_query1)
-    app_secret_code=result[0].__str__()
-    # app_secret_code=(''.join(map(str, result.pop())))
-    # app_secret_code=(''.join(map(str, result))
-    my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_name =='"+channelname+"' "
-    result2 = db_instance.rert(my_query2)
-    channel_secret_code= result2[0].__str__()
-    # channel_secret_code=(''.join(map(str, result2))
-    # channel_secret_code=(''.join(map(str, result2.pop())))
+    app_secret_code=(''.join(map(str, result.pop())))
+    string_to_send="unsubscribe "+app_secret_code
+    print(string_to_send)
+    test_socket.send_request(string_to_send,8083)
 
-
-    str="add_subscriber"+app_secret_code + channel_secret_code
-    print(str)
-    return "str"
-
-subcribe_to_channel("golestanapp","first channel")
+leave_channel("refahi")
