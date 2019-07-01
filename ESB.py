@@ -8,6 +8,7 @@ import DB
 import LAYER7
 import time
 import datetime
+import uuid
 
 
 
@@ -34,9 +35,24 @@ class esb:
     # def __init__(self,Appname):
     #     self.app_name=Appname
 
-    def send_users(self,channel_id,app_secret_code):
-         #send list of users to who ask for it and should return a list
-         pass
+    ############################################ send events to apps #################################
+    #send list of users to who ask for it and should return a list
+    def send_events_to_apps(self,channel_secret1):
+         my_query= "SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret1+"'"
+         result=db.rert(my_query)
+         channel_id=(''.join(map(str, result.pop())))
+         print(channel_id)
+         my_query="SELECT a_user_id FROM esb_assosiation_table WHERE a_channel_id='"+channel_id+"'"
+         result1=db.rert(my_query)
+         list=[]
+         for a_tuple in result1:  # iterates through each tuple
+             for item in a_tuple:  # iterates through each tuple items
+                 list.append(item)
+         str1 = ' '.join(str(e) for e in list)
+         return str1
+
+
+
 
     def add_subscriber(self,app_secret_code,channel_secret_id):
         #should return boolean
@@ -48,6 +64,14 @@ class esb:
         #shold send data in response
         pass
     
+
+    #add new channel to channel lists
+    def create_channel_for_esb(self,channel_name):
+        channel_secret_code = uuid.uuid4().hex 
+        my_query="INSERT INTO esb_table (channel_name,channel_secret) VALUES ('"+channel_name+"','"+channel_secret_code+"')"
+        db.execute(my_query)
+
+
     #receive event from G and save to assosiation table and it need channel id,app,id,user id
     def receive_login_event(self,app_id,user_id,channel_id):
         my_query = "INSERT INTO esb_assosiation_table (a_app_code,a_user_id,a_channel_id) VALUES ('"+app_id+"','"+user_id+"','"+channel_id+"')"
@@ -56,6 +80,8 @@ class esb:
         return "event added"
 
 
+########################################### main operator #########################################
+
 
 def main_operator(input):
     if input[0] == "login_event":
@@ -63,5 +89,12 @@ def main_operator(input):
         esb_instance= esb()
         return esb_instance.receive_login_event(input[1],input[2],input[3])
 
+    if input[0] == "request_for_event":
+        esb_instance= esb()
+        return esb_instance.send_events_to_apps(input[1])
 
+
+########################################### start esb ###############################################
+test_esb= esb()
+# test_esb.create_channel_for_esb("second channel")
 esb_socket.start_listening(main_operator)

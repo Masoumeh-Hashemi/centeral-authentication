@@ -109,7 +109,22 @@ def request_for_receive_user_id():
 def register_user(input):
         return "register_user"
 
-################################## main operation ###############################################
+################################### pick related events ########################################
+
+def pick_login_events(inputt):
+    my_query1="SELECT app_channel_id FROM app_table WHERE app_name=='"+inputt+"' "
+    result=db.rert(my_query1)
+    channel_number=(''.join(map(str, result.pop())))
+
+    my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_id=='"+channel_number+"' "
+    result2 = db.rert(my_query2)
+    channel_secret="request_for_event "+(''.join(map(str, result2.pop())))
+    print(channel_secret)
+    app_socket.send_request(channel_secret,8083)
+
+
+
+################################## main operation #############################################
 
 #main operation of the app:just send user a session id and app code
 def main_operator(input):
@@ -119,6 +134,9 @@ def main_operator(input):
         return result
     if input[0] == "register_user":
         return register_user(input[0])
+
+
+
 
 ############################################################################################
 #a function for listening to network that will be handelled by a thread
@@ -136,8 +154,8 @@ def listening():
 
 
 #define 2 threads for listening and do the rest
-# thread2 = threading.Thread(target = request_for_receive_user_id(),)
-# thread2.start()
+thread2 = threading.Thread(target = pick_login_events('golestanapp'),)
+thread2.start()
 thread1 = threading.Thread(target = listening(),)
 thread1.start()
 

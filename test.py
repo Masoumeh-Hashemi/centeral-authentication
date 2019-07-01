@@ -153,14 +153,41 @@ db_instance = DB.db('database')
 #         return False
 
 # check_app_secret_code("12345678","3")
-def channel_id(appid):
-    my_query="SELECT app_channel_id FROM app_table WHERE app_code= '"+appid+"' "
-    channel_id_lists = db_instance.rert(my_query)
-    channel_id=channel_id_lists[0]
-    channel_id=(''.join(map(str, channel_id)))
-    print(channel_id)
-    str1 = appid +" "+ user_id + " " + channel_id
-    test_socket.send_request(str1,8083)
-    return ""
+# def channel_id(appid):
+#     my_query="SELECT app_channel_id FROM app_table WHERE app_code= '"+appid+"' "
+#     channel_id_lists = db_instance.rert(my_query)
+#     channel_id=channel_id_lists[0]
+#     channel_id=(''.join(map(str, channel_id)))
+#     print(channel_id)
+#     str1 = appid +" "+ user_id + " " + channel_id
+#     test_socket.send_request(str1,8083)
+#     return ""
 
-channel_id("2")
+# channel_id("2")
+
+# def pick_login_events(inputt):
+#     my_query1="SELECT app_channel_id FROM app_table WHERE app_name=='"+inputt+"' "
+#     result=db_instance.rert(my_query1)
+#     channel_number=(''.join(map(str, result.pop())))
+#     print(channel_number)
+
+#     my_query2 = "SELECT channel_secret FROM esb_table WHERE channel_id=='"+channel_number+"' "
+#     result2 = db_instance.rert(my_query2)
+#     print(result2)
+#     channel_secret="request_for_event "+(''.join(map(str, result2.pop())))
+#     print(channel_secret)
+#     return ""
+
+# pick_login_events('golestanapp')
+
+channel_id="2"
+my_query="SELECT a_user_id FROM esb_assosiation_table WHERE a_channel_id='"+channel_id+"'"
+result1=db_instance.rert(my_query)
+
+list=[]
+for a_tuple in result1:  # iterates through each tuple
+    for item in a_tuple:  # iterates through each tuple items
+        list.append(item)
+print(list)
+str1 = ' '.join(str(e) for e in list)
+print(str1)
