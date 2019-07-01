@@ -153,3 +153,14 @@ db_instance = DB.db('database')
 #         return False
 
 # check_app_secret_code("12345678","3")
+def channel_id(appid):
+    my_query="SELECT app_channel_id FROM app_table WHERE app_code= '"+appid+"' "
+    channel_id_lists = db_instance.rert(my_query)
+    channel_id=channel_id_lists[0]
+    channel_id=(''.join(map(str, channel_id)))
+    print(channel_id)
+    str1 = appid +" "+ user_id + " " + channel_id
+    test_socket.send_request(str1,8083)
+    return ""
+
+channel_id("2")

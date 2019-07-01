@@ -30,7 +30,6 @@ class user:
         requested_app=url
         str = action + " " + requested_app
         result = user_socket.send_request(str,8081)
-        # user_socket.send_request(result,8081)
         return result
 
 
@@ -40,7 +39,7 @@ class user:
             test_user1=user()
             sesion_app_id=test_user1.send_login_request_to_app(appname)
             a=sesion_app_id.decode('utf-8')
-            str = "loginwithcredential"+" "+ a
+            str = "login_with_credential"+" "+ a
             user_socket.send_request(str,8080)
 
 ##################################### register user #############################

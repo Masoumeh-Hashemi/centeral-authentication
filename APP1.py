@@ -127,7 +127,7 @@ def listening():
     
 
 ## this line register a app to G
-register_request_to_g('automation','automation.com')
+# register_request_to_g('automation','automation.com')
 
 
 ##this two line check app secret code in G ##
@@ -138,6 +138,6 @@ register_request_to_g('automation','automation.com')
 #define 2 threads for listening and do the rest
 # thread2 = threading.Thread(target = request_for_receive_user_id(),)
 # thread2.start()
-# thread1 = threading.Thread(target = listening(),)
-# thread1.start()
+thread1 = threading.Thread(target = listening(),)
+thread1.start()
 

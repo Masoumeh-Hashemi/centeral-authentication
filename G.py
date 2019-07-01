@@ -28,7 +28,7 @@ def main_operator(input):
         return c
 
     #user has sessionid + appid from app and wants to login
-    elif input[0] == "loginwithcredential":
+    elif input[0] == "login_with_credential":
         return login_with_credential(input[1],input[2])
    
     elif input[0] == "get_user_id":
@@ -58,6 +58,14 @@ def login_with_credential(sessionid,appid):
             print("user successfully loged in")
             add_to_sessiontable_query="INSERT INTO session_table(session_id,s_app_id,s_user_id) VALUES ('"+sessionid+"','"+appid+"','"+user_id+"')"
             db.execute(add_to_sessiontable_query)
+            ################### send event to esb######################
+            my_query="SELECT app_channel_id FROM app_table WHERE app_code= '"+appid+"' "
+            channel_id_lists = db.rert(my_query)
+            channel_id=channel_id_lists[0]
+            channel_id=(''.join(map(str, channel_id)))
+            str1 = "login_event " + appid +" "+ user_id + " " + channel_id
+            print(str1)
+            sockett.send_request(str1,8083)
             return ""
 
         
@@ -92,7 +100,8 @@ def register_app(appname, url):
     db.execute(my_query)
     print("App " + a + " registered with URL: " + b)   
     return c
-########################################## check app secret code ##########################################
+########################################## check app secret code #############################################
+
 #app send its app_code and app_secret_code and G check if they are synche
 def check_app_secret_code(app_secret_code,app_code):
     my_query="SELECT app_secret_code FROM app_table WHERE app_code ='"+app_code+"' "
@@ -103,6 +112,7 @@ def check_app_secret_code(app_secret_code,app_code):
     else:
         return "False"
 ########################################## return logged userid to app #######################################
+
 #this function must return related user id from session table that has session id and appcode 
 def return_logged_user_id_to_app(session_id,app_id):
     my_query = "SELECT s_user_id FROM session_table WHERE session_id= '"+session_id+"' AND s_app_id= '"+app_id+"'"
@@ -110,6 +120,10 @@ def return_logged_user_id_to_app(session_id,app_id):
     user_id=(''.join(map(str, result.pop())))
     print (user_id)
     return user_id
+
+############################################ send event to ESB #############################################
+
+
 
 ########################################### run G server ###################################################
 # Run app
