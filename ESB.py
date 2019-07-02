@@ -42,7 +42,6 @@ class esb:
          my_query= "SELECT channel_id FROM esb_table WHERE channel_secret='"+channel_secret1+"'"
          result=db.rert(my_query)
          channel_id=(''.join(map(str, result.pop())))
-         print(channel_id)
          my_query="SELECT a_user_id FROM esb_assosiation_table WHERE a_channel_id='"+channel_id+"'"
          result1=db.rert(my_query)
          list=[]

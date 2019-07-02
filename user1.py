@@ -39,9 +39,11 @@ class user:
             test_user1=user()
             sesion_app_id=test_user1.send_login_request_to_app(appname)
             a=sesion_app_id.decode('utf-8')
-            str = "login_with_credential"+" "+ a
-            user_socket.send_request(str,8080)
+            str1 = "login_with_credential"+" "+ a
+            return str1
 
+    def send_login_to_g1(self,string):
+            user_socket.send_request(string,8080)
 ##################################### register user #############################
     #send register request to App
     def send_register_request_to_app(self,url):
@@ -55,7 +57,10 @@ class user:
     def send_register_to_g(self,appname):
             test_user1=user()
             str1=test_user1.send_register_request_to_app(appname)
-            a=str1.decode('utf-8')
+            # a=str1.decode('utf-8')
+            print(type(str1))
+            a=str(str1)
+            print("this is"+a)
             user_socket.send_request(a,8080)
 
   ################################ start #####################################
@@ -63,12 +68,17 @@ class user:
 #start user program
 test_user=user()
 
-#this line can register a user successfully to g
+    #user login
+string=test_user.send_login_to_g('golestanapp')
+print(string)
+test_user.send_login_to_g1(string)
+
+
+    #register a user to g
 # test_user.send_register_to_g('golestanapp')
 
-test_user.send_login_to_g('golestanapp')
 
-# main_operation(g_response)
+
 
 
 
